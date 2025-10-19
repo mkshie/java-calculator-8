@@ -23,6 +23,7 @@ class ApplicationTest extends NsTest {
                 .isInstanceOf(IllegalArgumentException.class)
         );
     }
+
     @Test
     void 양수_예외_테스트(){
         assertSimpleTest(() ->
@@ -30,12 +31,37 @@ class ApplicationTest extends NsTest {
                     .isInstanceOf(IllegalArgumentException.class)
         );
     }
+
+    @Test
+    void 양수_예외_테스트2(){
+        assertSimpleTest(() ->
+                assertThatThrownBy(() -> runException("*1,2,3"))
+                        .isInstanceOf(IllegalArgumentException.class)
+        );
+    }
+
     @Test
     void 커스텀_문자_0_테스트(){
         assertSimpleTest(()->{
             run("//0\\n20304");
             assertThat(output()).contains("결과 : 9");
         });
+    }
+
+    @Test
+    void 마커_없으면_예외() {
+        assertSimpleTest(() ->
+                assertThatThrownBy(() -> run("//;1"))
+                    .isInstanceOf(IllegalArgumentException.class)
+        );
+    }
+
+    @Test
+    void 빈_토큰_예외_연속_구분자(){
+        assertSimpleTest(()->
+                assertThatThrownBy(() -> run("1,,2"))
+                        .isInstanceOf(IllegalArgumentException.class)
+        );
     }
 
     @Override
