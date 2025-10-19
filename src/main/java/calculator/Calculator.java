@@ -10,8 +10,7 @@ public class Calculator {
 
     private int sum = 0;
     private String delimiter  = "[,:]";
-    private final String marker = "\\n";
-    private String number;
+    private static final String POSITIVE_INT = "^[1-9]\\d*$";
 
     public int run(){
         System.out.println("덧셈할 문자열을 입력해 주세요.");
@@ -47,7 +46,6 @@ public class Calculator {
         List <Integer> numsList =parseInput(number);
 
         for(Integer num : numsList){
-            if(num < 1) throw new IllegalArgumentException();
             sum += num;
         }
 
@@ -58,6 +56,16 @@ public class Calculator {
         List<Integer> result = new ArrayList<>();
         String[] tokens = number.split(delimiter);
         for (String token : tokens) {
+            token = token.trim();
+
+            if (token.isEmpty()) {
+                throw new IllegalArgumentException("빈 값은 허용되지 않습니다.");
+            }
+
+            if (!token.matches(POSITIVE_INT)) {
+                throw new IllegalArgumentException("양의 정수만 입력하세요: " + token);
+            }
+
             result.add(Integer.parseInt(token));
         }
         return result;
