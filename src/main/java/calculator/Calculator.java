@@ -10,6 +10,7 @@ public class Calculator {
 
     private int sum = 0;
     private String delimiter  = "[,:]";
+    private final String marker = "\\n";
     private String number;
 
     public int run(){
@@ -20,11 +21,19 @@ public class Calculator {
             return 0;
         }
 
+
+
         if(input.startsWith("//")){
-            input = input.substring(2);
-            String customDelimiter = Pattern.quote(input);
+            String customDelimiter = input.substring(2 , input.indexOf(marker));
+
+            customDelimiter = Pattern.quote(customDelimiter);
+
             delimiter = delimiter + "|"  + customDelimiter;
-            number = Console.readLine();
+            number = input.substring(input.indexOf(marker) + marker.length());
+
+            if(number.isEmpty()){
+                return 0;
+            }
         }
         else{
             number = input;
@@ -33,6 +42,7 @@ public class Calculator {
         List <Integer> numsList =parseInput(number);
 
         for(Integer num : numsList){
+            if(num < 1) throw new IllegalArgumentException();
             sum += num;
         }
 
