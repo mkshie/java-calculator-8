@@ -8,7 +8,6 @@ import java.util.regex.Pattern;
 
 public class Calculator {
 
-    private int sum = 0;
     private String delimiter  = "[,:]";
     private static final String POSITIVE_INT = "^[1-9]\\d*$";
 
@@ -21,6 +20,21 @@ public class Calculator {
         }
 
 
+        String number;
+        number = parseHeaderAndApplyDelimiter(input);
+        if (number == null) return 0;
+
+        List <Integer> numsList = parseNumbers(number);
+
+        int sum = 0;
+        for(Integer num : numsList){
+            sum += num;
+        }
+
+        return sum;
+    }
+
+    private String parseHeaderAndApplyDelimiter(String input) {
         String number;
         if(input.startsWith("//")){
 
@@ -36,23 +50,16 @@ public class Calculator {
             number = input.substring(idx + marker.length());
 
             if(number.isEmpty()){
-                return 0;
+                return null;
             }
         }
         else{
             number = input;
         }
-
-        List <Integer> numsList =parseInput(number);
-
-        for(Integer num : numsList){
-            sum += num;
-        }
-
-        return sum;
+        return number;
     }
 
-    public List<Integer> parseInput(String number) {
+    public List<Integer> parseNumbers(String number) {
         List<Integer> result = new ArrayList<>();
         String[] tokens = number.split(delimiter);
         for (String token : tokens) {
