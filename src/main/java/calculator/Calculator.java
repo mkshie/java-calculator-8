@@ -22,14 +22,19 @@ public class Calculator {
         }
 
 
-
+        String number;
         if(input.startsWith("//")){
-            String customDelimiter = input.substring(2 , input.indexOf(marker));
+
+            String marker = "\\n";
+            int idx = input.indexOf(marker);
+            if(idx < 0) throw new IllegalArgumentException("\\n 이 존재하지 않습니다.");
+
+            String customDelimiter = input.substring(2 , idx);
 
             customDelimiter = Pattern.quote(customDelimiter);
 
             delimiter = delimiter + "|"  + customDelimiter;
-            number = input.substring(input.indexOf(marker) + marker.length());
+            number = input.substring(idx + marker.length());
 
             if(number.isEmpty()){
                 return 0;
