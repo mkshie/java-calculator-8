@@ -49,9 +49,9 @@ public class Calculator {
         return sum;
     }
 
-    public List<Integer> parseInput(String input) {
+    public List<Integer> parseInput(String number) {
         List<Integer> result = new ArrayList<>();
-        String[] tokens = input.split(delimiter);
+        String[] tokens = number.split(delimiter);
         for (String token : tokens) {
             result.add(Integer.parseInt(token));
         }
